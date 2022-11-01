@@ -37,3 +37,5 @@ class UsersPostListView(ListView):
         context = super().get_context_data(**kwargs)
         context["author"] = self.get_author_or_404()
         return context
+class SearchListView(ListView):
+    template_name = "posts/post_list.html"    
