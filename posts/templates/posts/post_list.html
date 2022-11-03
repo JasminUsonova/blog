@@ -4,7 +4,7 @@
 
 {% block postblock %}
 {% if author %}
-    <h1>Posts by the {{ author.get_full_name }}</h1>
+<h1>Posts by the {{ author.get_full_name }}</h1>
 {% endif %}
 
 {% for obj in object_list %}
@@ -17,10 +17,30 @@
     </div>
     <div class="card-text">{{ obj.text|truncatechars:"200" }}</div>
     <div class="card-footer">
-        <span class="card-date">{{ obj.published_at|date:"d M" }}</span>
+        <div>
+            <span class="card-date">{{ obj.published_at|date:"d M" }}</span>
+            {% for tag in obj.tags.all %}
+                <span class="card-date">{{ tag.title }}</span>
+            {% endfor %}
+        </div>
         <a class="card-button" href="{% url 'post-detail' obj.pk %}">читать</a>
     </div>
 </div>
 <hr class="line">
+{% empty %}
+<div class="card">
+    {% if search %}
+        <div class="card-title">
+            Ничего не нашлось.
+        </div>
+        <div class="card-text">
+            <p>Поробуйте изменить поиск.</p>
+        </div>
+    {% else %}
+        <div class="card-title">
+            Пока нет записей
+        </div>
+    {% endif %}
+</div>
 {% endfor %}
 {% endblock postblock %}
